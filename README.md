@@ -1,4 +1,4 @@
-[![Fluid Trangle](/og.png)](https://fluid-triangle.vercel.app)
+[https://github.com/auxe-os/cd-fluid-trianglet![Fluid Trangle](/og.png)](https://fluid-triangle.vercel.app)
 
 Fun exploration with fluid physics and ASCII rendering.
 

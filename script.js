@@ -6,7 +6,7 @@ And a copy of its license below.
 
 ---
 
-Copyright 2022 Matthias Müller - Ten Minute Physics, 
+Copyright 2022 Matthias Müller - Ten Minute Physics,
 www.youtube.com/c/TenMinutePhysics
 www.matthiasMueller.info/tenMinutePhysics
 
@@ -40,11 +40,11 @@ const BASE = [
 ];
 
 const RENDER_CHARS = [
-  [["F", 26574], ["F", 26574], ["f", 17490], ...BASE],
-  [["L", 21327], ["L", 21327], ["l", 14019], ...BASE],
-  [["U", 32973], ["U", 32973], ["u", 24093], ...BASE],
-  [["I", 14883], ["I", 14883], ["i", 13638], ...BASE],
-  [["D", 36198], ["D", 36198], ["d", 30762], ...BASE],
+  [["A", 26574], ["F", 26574], ["f", 17490], ...BASE],
+  [["U", 21327], ["L", 21327], ["l", 14019], ...BASE],
+  [["X", 32973], ["U", 32973], ["u", 24093], ...BASE],
+  [["O", 14883], ["I", 14883], ["i", 13638], ...BASE],
+  [["S", 36198], ["D", 36198], ["d", 30762], ...BASE],
 ];
 
 // // amount of bright pixels a character shows at 12px font size
@@ -83,10 +83,10 @@ const renderEl = document.querySelector(".render");
 const GRID_SIZE = Math.max(
   Math.round(
     Math.sqrt(
-      (window.innerWidth * window.innerHeight) / TARGET_LONG_SIDE
-    )
+      (window.innerWidth * window.innerHeight) / TARGET_LONG_SIDE,
+    ),
   ),
-  MIN_GRID_SIZE
+  MIN_GRID_SIZE,
 );
 
 const SPEED_1 = 1.0 / 60.0 / 16;
@@ -116,7 +116,7 @@ renderEl.style.width = realWidth + "px";
 renderEl.style.height = realHeight + "px";
 document.documentElement.style.setProperty(
   "--cell-size",
-  GRID_SIZE + "px"
+  GRID_SIZE + "px",
 );
 
 canvasEl.focus();
@@ -150,7 +150,7 @@ class FlipFluid {
     height,
     spacing,
     particleRadius,
-    maxParticles
+    maxParticles,
   ) {
     // fluid
 
@@ -229,12 +229,12 @@ class FlipFluid {
       var xi = clamp(
         Math.floor(x * this.pInvSpacing),
         0,
-        this.pNumX - 1
+        this.pNumX - 1,
       );
       var yi = clamp(
         Math.floor(y * this.pInvSpacing),
         0,
-        this.pNumY - 1
+        this.pNumY - 1,
       );
       var cellNr = xi * this.pNumY + yi;
       this.numCellParticles[cellNr]++;
@@ -259,12 +259,12 @@ class FlipFluid {
       var xi = clamp(
         Math.floor(x * this.pInvSpacing),
         0,
-        this.pNumX - 1
+        this.pNumX - 1,
       );
       var yi = clamp(
         Math.floor(y * this.pInvSpacing),
         0,
-        this.pNumY - 1
+        this.pNumY - 1,
       );
       var cellNr = xi * this.pNumY + yi;
       this.firstCellParticle[cellNr]--;
@@ -380,7 +380,7 @@ class FlipFluid {
           y,
           trianglePoints[0],
           trianglePoints[1],
-          trianglePoints[2]
+          trianglePoints[2],
         )
       ) {
         // Find closest point on triangle and push particle out
@@ -407,7 +407,7 @@ class FlipFluid {
           let len = edge.x * edge.x + edge.y * edge.y;
           let t = Math.max(
             0,
-            Math.min(1, (point.x * edge.x + point.y * edge.y) / len)
+            Math.min(1, (point.x * edge.x + point.y * edge.y) / len),
           );
 
           let proj = {
@@ -416,7 +416,7 @@ class FlipFluid {
           };
 
           let dist = Math.sqrt(
-            (x - proj.x) * (x - proj.x) + (y - proj.y) * (y - proj.y)
+            (x - proj.x) * (x - proj.x) + (y - proj.y) * (y - proj.y),
           );
           if (dist < minDist) {
             minDist = dist;
@@ -663,7 +663,7 @@ class FlipFluid {
     numIters,
     dt,
     overRelaxation,
-    compensateDrift = true
+    compensateDrift = true,
   ) {
     this.p.fill(0.0);
     this.prevU.set(this.u);
@@ -732,17 +732,17 @@ class FlipFluid {
       this.particleColor[3 * i] = clamp(
         this.particleColor[3 * i] - s,
         0.0,
-        1.0
+        1.0,
       );
       this.particleColor[3 * i + 1] = clamp(
         this.particleColor[3 * i + 1] - s,
         0.0,
-        1.0
+        1.0,
       );
       this.particleColor[3 * i + 2] = clamp(
         this.particleColor[3 * i + 2] + s,
         0.0,
-        1.0
+        1.0,
       );
 
       var x = this.particlePos[2 * i];
@@ -830,7 +830,7 @@ class FlipFluid {
     separateParticles,
     obstacleX,
     abstacleY,
-    obstacleRadius
+    obstacleRadius,
   ) {
     var numSubSteps = 1;
     var sdt = dt / numSubSteps;
@@ -843,7 +843,7 @@ class FlipFluid {
       this.handleParticleCollisions(
         obstacleX,
         abstacleY,
-        obstacleRadius
+        obstacleRadius,
       );
       this.transferVelocities(true);
       this.updateParticleDensity();
@@ -851,7 +851,7 @@ class FlipFluid {
         numPressureIters,
         sdt,
         overRelaxation,
-        compensateDrift
+        compensateDrift,
       );
       this.transferVelocities(false, flipRatio);
     }
@@ -904,10 +904,10 @@ function setupScene() {
   var dy = (Math.sqrt(3.0) / 2.0) * dx;
 
   var numX = Math.floor(
-    (relWaterWidth * tankWidth - 2.0 * h - 2.0 * r) / dx
+    (relWaterWidth * tankWidth - 2.0 * h - 2.0 * r) / dx,
   );
   var numY = Math.floor(
-    (relWaterHeight * tankHeight - 2.0 * h - 2.0 * r) / dy
+    (relWaterHeight * tankHeight - 2.0 * h - 2.0 * r) / dy,
   );
   var maxParticles = numX * numY;
 
@@ -919,7 +919,7 @@ function setupScene() {
     tankHeight,
     h,
     r,
-    maxParticles
+    maxParticles,
   );
 
   // create particles
@@ -1061,7 +1061,7 @@ canvasEl.addEventListener(
   },
   {
     passive: false,
-  }
+  },
 );
 
 document.addEventListener("keydown", (event) => {
@@ -1157,7 +1157,7 @@ function simulate() {
       scene.obstacleX,
       scene.obstacleY,
       scene.obstacleRadius,
-      scene.colorFieldNr
+      scene.colorFieldNr,
     );
   scene.frameNr++;
 }
@@ -1183,7 +1183,7 @@ function update() {
           RENDER_CHARS[Math.floor((i + j + 1) % RENDER_CHARS.length)];
 
         const RENDER_CHAR_DICTIONARY = CURRENT_RENDER_CHAR.sort(
-          (a, b) => a[1] - b[1]
+          (a, b) => a[1] - b[1],
         )
           .map(([char]) => char)
           .join("");
